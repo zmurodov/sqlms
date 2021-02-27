@@ -1,0 +1,1307 @@
+﻿<html lang="en" style="--bgc-a:#eef2f4; --bgc-b:#eef2f4; --bgc-c:#fefcfe; --bgc-d:#fefcfe; --bgc-e:#ffffff; --bgc-f:#fefcfe; --bgc-g:#7cc3c6; --bgc-h:#ffffff; --bgc-i:#fefcfe; --bgc-j:#eef2f4; --bgc-q:rgba(231,234,236,0.9); --bgc-x:0 2px 2px 0 rgba(150,150,150,0.14), 0 3px 1px -2px rgba(150,150,150,0.2), 0 1px 5px 0 rgba(150,150,150,0.12); --bgc-z:rgba(0, 0, 0, 0.4); --bgr-a:#ebeaeb; --bgr-b:#ebeaeb; --bgr-c:#ebeaeb; --bgr-d:#ebeaeb; --bgr-e:#ebeaeb; --bgr-f:#ebeaeb; --bgr-g:#7cc3c6; --bgr-h:#bc5b4f; --bgr-i:#ebeaeb; --bgr-j:#ebeaeb; --color-a:#647684; --color-b:#637684; --color-c:#007f91; --color-d:#ca4334; --color-e:#667887; --color-f:#e2e3e3; --color-g:#bc5b4f; --color-h:#429248; --color-z:#697178; --sb-a:#b7bdc6; --sb-b:#ebeaeb; --cm-color:#96a3ac; --cm-keyword:#6f85b5; --cm-atom:#e75143; --cm-variable:#44a0b6; --cm-property:#8163f1; --cm-operator:#2da0b9; --cm-builtin:#2A6E88; --cm-number:#ca4334; --cm-string:#94ae64; --cm-variable-2:#94ae64; --cm-comment:#d3d9df; --cm-selected:#f2f5f8; --cm-bracket:#ffd217; --cm-line:#d2d6db; --menu-table:#73c778; --menu-column:#7cbaff; --menu-index:#e4a49d; --menu-trigger:#e1ab00; --menu-view:#73c778; --menu-key:#e4a49d; --menu-fun:#e4a49d; --menu-ct:#92a2ab; --dlg-btn-show-color:#fff; --dlg-btn-show-bg:#7cc3c6; --dlg-btn-show-br:#ebeaeb; --hover-el-color:#fff; --hover-el-bg:#7cc3c6;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="hdescription" name="description" content="SQL OnLine - SQLite, MySQL / MariaDB, PostgreSQL, MsSQL, Oracle. User-friendly interface for Data Science. No DownLoad, No Install.">
+    <meta id="hkeywords" name="keywords" content="sqlite, sqlite online, data science, sqlite viewer, sqlite editor, sqlite manager, sqlite browser,select,insert,update,delete,sql">
+    <title id="htitle">SQL OnLine IDE</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="preload" as="font" crossorigin="" type="font/woff2" href="~/fonts/fontawesome-webfont.woff2?v=4.7.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://unpkg.com/jquery-resizable-columns@0.2.3/dist/jquery.resizableColumns.css" rel="stylesheet">
+    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/sticky-header/bootstrap-table-sticky-header.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css">
+</head>
+
+<body class="mssql" data-new-gr-c-s-check-loaded="14.997.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.997.0" cz-shortcut-listen="true">
+    <div id="mask" style="position: absolute; top:  0; bottom: 0; left: 0; right:  0; background-color: #fff;z-index: 30;"></div>
+    <div id="lock-wait" class="d-lock bga4" style="display: none;">
+        <div class="cl-block">
+            <div class="cl-spin"></div>
+        </div>
+        <div class="cl-block">Wait</div>
+    </div>
+    <div id="sql-online">
+        <header>
+            <ul class="menu-top">
+                <li>
+                    <button class="btn bs" id="menu-sidnav" aria-label="open/hide left menu">
+                        <i class="fa fa-bars" aria-hidden="true">
+                        </i>
+                    </button>
+                </li>
+                <li>
+                    <button class="btn bg dropdown" id="tm-btn-file"> <i class="fa fa-database" aria-hidden="true"></i> Selected Database </button>
+                </li>
+                <li>
+                    <button id="mt-btn-mod" class="btn bg">
+                        <i class="fa fa-globe" aria-hidden="true"></i> <span class="hm">
+                            Connect to DB
+                        </span>
+                    </button>
+                </li>
+                <li>
+                    <button id="mt-btn-run" class="btn bg active" aria-label="run sql">
+                        <i class="fa fa-play" aria-hidden="true">
+                        </i><span class="hm"> Run </span>
+                    </button>
+                </li>
+            </ul>
+            <ul class="menu-top">
+                <li id="cloud-menu-top">
+                    <button class="btn bs">
+                        <i class="fa fa-sign-in mh">
+                        </i><span class="hm">Zufar Murodov</span>
+                    </button>
+                </li>
+            </ul>
+        </header>
+        <main>
+            <nav id="main-col-left" style="width: 280px" class="">
+                <div id="main-col-left-nav" class="sb-n" style="overflow-y: scroll;">
+                    <ul class="nav metismenu" id="side-menu">
+                        <li class="">
+                            <a id="m-sqlite" aria-expanded="false">
+                                <i class="fa fa-cube" aria-hidden="true">
+                                </i> <span class="nav-label">SQLite</span> <span class="fa arrow">
+                                </span>
+                            </a>
+                            <ul class="nav nav-second-level collapse" m-type="sqlite" style="height: 0px;">
+                                <li id="menu-left-db-sqlite">
+                                    <ul class="nav navd nav-second-level ">
+                                        <li class="title" style="padding-top: 7px; padding-bottom: 3px;">
+                                            <div class="name" style="padding-left: 37px;">Table</div>
+                                        </li>
+                                        <li>
+                                            <a class="menu-group" aria-expanded="false">
+                                                <div class="left-menu-item" irem="1" id="menu-el-rem-sqlite1">
+                                                    <i class="fa fa-table" style="margin-right: 10px;">
+                                                    </i>demo
+                                                </div> <span class="fa arrow"></span>
+                                            </a>
+                                            <ul class="nav nav-third-level collapse">
+                                                <li style="padding-top: 5px;">
+                                                    <a class="menu-group-sub"> <b>Column</b> </a>
+                                                </li>
+                                                <li>
+                                                    <a class="menu-group-sub">
+                                                        <div class="left-menu-item-f" irem="2" id="menu-el-rem-sqlite2">
+                                                            <i class="fa fa-key"></i>ID <small class="left-menu-item-column-type">
+                                                                integer
+                                                            </small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="menu-group-sub">
+                                                        <div class="left-menu-item-f" irem="3" id="menu-el-rem-sqlite3">
+                                                            <i class="fa fa-columns"></i>Name <small class="left-menu-item-column-type">
+                                                                varchar(20)
+                                                            </small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="menu-group-sub">
+                                                        <div class="left-menu-item-f" irem="4" id="menu-el-rem-sqlite4">
+                                                            <i class="fa fa-columns"></i>Hint <small class="left-menu-item-column-type">
+                                                                text
+                                                            </small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a id="m-mariadb" title="MariaDB as MySQL" aria-expanded="false">
+                                <i class="fa fa-cube" aria-hidden="true">
+                                </i> <span class="nav-label">MariaDB</span> <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse" m-type="mariadb" style="height: 0px;">
+                                <li id="menu-left-db-mariadb">
+                                    <ul class="nav navd nav-second-level">
+                                        <li>
+                                            <a class=""> <i class="fa fa-plug" style="margin-right: 10px;"></i>Click to connect </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a id="m-pgsql" aria-expanded="false"> <i class="fa fa-cube" aria-hidden="true"></i> <span class="nav-label">PostgreSQL</span> <span class="fa arrow"></span> </a>
+                            <ul class="nav nav-second-level collapse" m-type="pgsql" style="height: 0px;">
+                                <li id="menu-left-db-pgsql">
+                                    <ul class="nav navd nav-second-level">
+                                        <li>
+                                            <a class=""> <i class="fa fa-plug" style="margin-right: 10px;"></i>Click to connect </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="">
+                            <a id="m-pgsql" aria-expanded="false"> <i class="fa fa-cube" aria-hidden="true"></i> <span class="nav-label">PostgreSQL</span> <span class="fa arrow"></span> </a>
+                            <ul class="nav nav-second-level collapse" m-type="pgsql" style="height: 0px;">
+                                <li id="menu-left-db-pgsql">
+                                    <ul class="nav navd nav-second-level">
+                                        <li>
+                                            <a class=""> <i class="fa fa-plug" style="margin-right: 10px;"></i>Click to connect </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="active">
+                            <a id="m-mssql" aria-expanded="false">
+                                <i class="fa fa-cube" aria-hidden="true">
+                                </i> <span class="nav-label">MS SQL</span> <span class="fa arrow">
+                                </span>
+                            </a>
+                            <ul class="nav nav-second-level collapse in" m-type="mssql" style="">
+                                <li id="menu-left-db-mssql">
+                                    <ul class="nav navd nav-second-level ">
+                                        <li class="" style="padding-top: 7px;">
+                                            <i class="" style="padding-left: 37px;">
+                                                TEST - v.4.3.180
+                                            </i>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav navd nav-second-level ">
+                                        <li class="title" style="padding-top: 7px; padding-bottom: 3px;">
+                                            <div class="name" style="padding-left: 37px;">Table</div>
+                                        </li>
+                                        <li class="active">
+                                            <a class="menu-group" aria-expanded="true">
+                                                <div class="left-menu-item" irem="1" id="menu-el-rem-mssql1">
+                                                    <i class="fa fa-table" style="margin-right: 10px;">
+                                                    </i>demo
+                                                </div> <span class="fa arrow"></span>
+                                            </a>
+                                            <ul class="nav nav-third-level collapse in" style="">
+                                                <li style="padding-top: 5px;">
+                                                    <a class="menu-group-sub"> <b>Column</b> </a>
+                                                </li>
+                                                <li>
+                                                    <a class="menu-group-sub">
+                                                        <div class="left-menu-item-f" irem="1" id="menu-el-rem-mssql1">
+                                                            <i class="fa fa-key"></i>id <small class="left-menu-item-column-type">
+                                                                bigint
+                                                            </small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="menu-group-sub">
+                                                        <div class="left-menu-item-f" irem="2" id="menu-el-rem-mssql2">
+                                                            <i class="fa fa-columns"></i>name <small class="left-menu-item-column-type">
+                                                                varchar
+                                                            </small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="menu-group-sub">
+                                                        <div class="left-menu-item-f" irem="3" id="menu-el-rem-mssql3">
+                                                            <i class="fa fa-columns"></i>hint <small class="left-menu-item-column-type">
+                                                                text
+                                                            </small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li style="opacity: 0.3;pointer-events: none;">
+                            <a id="m-plsql" aria-expanded="false">
+                                <i class="fa fa-ban" aria-hidden="true">
+                                </i> <span class="nav-label">Oracle</span> <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse" m-type="plsql">
+                                <li id="menu-left-db-plsql">
+                                    <ul class="nav navd nav-second-level">
+                                        <li>
+                                            <a> <i class="fa fa-plug" style="margin-right: 10px;"></i>Click to connect </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a aria-expanded="false">
+                                <i class="fa fa-cube" aria-hidden="true"></i> <span class="nav-label">
+                                    Docker
+                                </span> <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a rel="noopener" target="_blank" href="https://hub.docker.com/r/sqliteonlinecom/soe-mariadb">
+                                        <i class="fa fa-database" style="margin-right: 10px;">
+                                        </i>MariaDB
+                                    </a>
+                                </li>
+                                <li>
+                                    <a rel="noopener" target="_blank" href="https://hub.docker.com/r/sqliteonlinecom/soe-mysql">
+                                        <i class="fa fa-database" style="margin-right: 10px;">
+                                        </i>MySQL
+                                    </a>
+                                </li>
+                                <li style="padding-bottom: 10px">
+                                    <a rel="noopener" target="_blank" href="https://hub.docker.com/r/sqliteonlinecom/soe-postgres">
+                                        <i class="fa fa-database" style="margin-right: 10px;">
+                                        </i>PostgreSQL
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a aria-expanded="false">
+                                <i class="fa fa-book" aria-hidden="true"></i> <span class="nav-label">
+                                    Syntax
+                                </span> <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a class="link-ajax" href="/syntax/all_functions" title="all functions">
+                                        all
+                                        functions
+                                    </a>
+                                </li>
+                                <li> <a class="link-ajax" href="/syntax/comment" title="comment">comment</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/alter_table" title="ALTER TABLE">ALTER TABLE</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/analyze" title="ANALYZE">ANALYZE</a> </li>
+                                <li>
+                                    <a class="link-ajax" href="/syntax/attach_database" title="ATTACH DATABASE">
+                                        ATTACH
+                                        DATABASE
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="link-ajax" href="/syntax/create_index" title="CREATE INDEX">
+                                        CREATE
+                                        INDEX
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="link-ajax" href="/syntax/create_table" title="CREATE TABLE">
+                                        CREATE
+                                        TABLE
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="link-ajax" href="/syntax/create_trigger" title="CREATE TRIGGER">
+                                        CREATE
+                                        TRIGGER
+                                    </a>
+                                </li>
+                                <li> <a class="link-ajax" href="/syntax/create_view" title="CREATE VIEW">CREATE VIEW</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/delete" title="DELETE">DELETE</a> </li>
+                                <li>
+                                    <a class="link-ajax" href="/syntax/detach_database" title="DETACH DATABASE">
+                                        DETACH
+                                        DATABASE
+                                    </a>
+                                </li>
+                                <li> <a class="link-ajax" href="/syntax/drop_index" title="DROP INDEX">DROP INDEX</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/drop_table" title="DROP TABLE">DROP TABLE</a> </li>
+                                <li>
+                                    <a class="link-ajax" href="/syntax/drop_trigger" title="DROP TRIGGER">
+                                        DROP
+                                        TRIGGER
+                                    </a>
+                                </li>
+                                <li> <a class="link-ajax" href="/syntax/drop_view" title="DROP VIEW">DROP VIEW</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/insert" title="INSERT">INSERT</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/select" title="SELECT">SELECT</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/transaction" title="TRANSACTION">TRANSACTION</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/update" title="UPDATE">UPDATE</a> </li>
+                                <li> <a class="link-ajax" href="/syntax/vacuum" title="VACUUM">VACUUM</a> </li>
+                                <li style="padding-bottom: 10px">
+                                    <a class="link-ajax" href="/syntax/with" title="WITH clause">
+                                        WITH
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a rel="noopener" href="https://sql.band" target="_blank">
+                                <i class="fa fa-building-o" aria-hidden="true">
+                                </i> <span class="nav-label">Business</span>
+                            </a>
+                        </li>
+                    </ul>
+                    @*<div style="width: 220px;margin: 0;padding: 0;height: 480px;" id="sql-adv1">
+                        <ins class="adsbygoogle" style="display:inline-block;width:220px;height:480px" data-ad-client="ca-pub-4902214716381705" data-ad-slot="2633227074">
+                        </ins>
+                    </div>*@
+                </div>
+                <div id="main-col-slider"></div>
+            </nav>
+            <div id="main-col-right">
+                <div id="main-row-top" class="div-main-main" style="height: 350px;">
+                    <div id="edit-tab">
+                        <div id="edit-tab-all" class="sb-n" style="overflow-x: scroll;">
+                            <ul id="edit-tab-list" class="nosel">
+                               
+                                <li class="idb-mssql">
+                                    <a id="mtab-0" data-box-id="box-0" class="active">
+                                        <i class="fa fa-server">
+                                        </i>MS SQL
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="sb sb-x nosel" style="display: none;"></div>
+                        </div>
+                        <div id="edit-tab-btn" class="group group-btn">
+                           
+                            <button class="btn bg" id="ce-add" aria-label="new tab">
+                                <i class="fa fa-plus-square" aria-hidden="true">
+                                </i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="edit-box">
+                       
+                        <div id="box-0" class="tab-pane active">
+                            <textarea id="editor-0" class="text-sql" style="display: none;"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="main-row-bottom" class="div-main-main">
+                    <div id="main-row-slider" style="top: -4px;"></div>
+                    <table id="table" style="color: #637684; font-size: 13px;">
+                        <thead>
+                            <tr></tr>
+                        </thead>
+                    </table>
+                    <div id="div-col-table" style="display: none;" class="tab-pane active">
+                        <div id="div-main-grid">
+                            <div id="div-main-grid-table-scroll">
+                                <table class="table" id="div-main-grid-table">
+                                    <thead id="table-head">
+                                        <tr class="noselect">
+                                            <th id="table-th-0" class="noselect colresize" style="position: relative; width: 242px;">
+                                                <div class="tdhed cuttextsize">ID</div>
+                                                <div class="noselect" style="top: 0px; right: -4px; bottom: 0px; width: 7px; position: absolute; cursor: col-resize; z-index: 3;">&nbsp;</div>
+                                            </th>
+                                            <th id="table-th-1" class="noselect colresize" style="position: relative; width: 242px;">
+                                                <div class="tdhed cuttextsize">Name</div>
+                                                <div class="noselect" style="top: 0px; right: -4px; bottom: 0px; width: 7px; position: absolute; cursor: col-resize; z-index: 3;">&nbsp;</div>
+                                            </th>
+                                            <th id="table-th-2" class="noselect colresize" style="position: relative; width: auto;">
+                                                <div class="tdhed cuttextsize">Hint</div>
+                                                <div class="noselect" style="top: 0px; right: 0px; bottom: 0px; width: 6px; position: absolute; cursor: col-resize; z-index: 3;">&nbsp;</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">1</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">SQL Online</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">for Data Science</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">2</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Chart</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">LINE-SELECT name, cos(id), sin(id) FROM demo;</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">3</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Short CODE</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">s* tableName =&gt; SELECT * FROM tableName sf tableName =&gt; SELECT columns FROM tableName sl tableName =&gt; SELECT * FROM tableName ORDER BY key DESC LIMIT 100; ct =&gt; CREATE TABLE ii tableName =&gt; INSERT INTO us tableName =&gt; UPDATE SET uw tableName =&gt; UPDATE SET WHERE df tableName =&gt; DELETE FROM dw tableName =&gt; DELETE FROM WHERE</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">4</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">SqLite 3.34.1</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">SQL OnLine on JavaScript</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">5</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">MultiVersion</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">3.28.0 to Last (load on settings)</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">6</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">[RightClick] mouse</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Opens many additional features</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">7</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Left-Panel, Table</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">[RightClick] mouse "Context menu" or [DbClick]</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">8</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Tabs</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">mouse: [RightClick] , [MiddleClick] , [Wheel] , [LeftClick]</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">9</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">SQL Editor</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">autocomplete: [Ctrl-Space] or [Alt-Space]; run: [Shift-Enter]</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">10</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Size table</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Fast scroll million rows</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">11</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Share</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Create public link DB</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">12</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">ai.Url</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize"><a rel="noopener" href="https://twitter.com/SqliteOnlineCom" target="_blank">https://twitter.com/SqliteOnlineCom</a></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">13</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">ai.Color</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">
+                                                    <div style="border-left: 20px solid #9393ad;padding-left: 3px;">#9393ad</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">14</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">ai.Image</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Blob - png, jpg, gif or String(base64) [DbClick] row</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">15</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">SQL</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">Syntax example library</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">16</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">CREATE</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">CREATE TABLE table_name (col1, col2)</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">17</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">SELECT</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">SELECT * FROM table_name</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-h">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">18</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">INSERT</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">INSERT INTO table_name (col1, col2) VALUES ("example","test")</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-tr-d">
+                                            <td class="noselect tablemouseevent">
+                                                <div class="tdnum thover cuttextsize">19</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">UPDATE</div>
+                                            </td>
+                                            <td class="noselect tablemouseevent">
+                                                <div class="thover cuttextsize">UPDATE table_name SET col1="work" WHERE col2="test"</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="main-table-scroll" aria-hidden="true">
+                            <div id="main-table-scroll2"></div>
+                        </div>
+                        <div class="pmgroup" id="table-btn-pcol">
+                            <button class="btn" id="table-btn-oc" aria-label="open/hide columns in table"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
+                        </div>
+                        <div id="table-btn-tab-page-scroll" class="sb-n">
+                            <div id="table-btn-tab-page" class="group group-btn"></div>
+                            <div class="sb sb-x nosel" style="display: block;"></div>
+                        </div>
+                    </div>
+                    <div id="div-col-help" class="tab-pane" style="display: none;">
+                        <div id="div-html-header" class="header" style="padding-left: 30px">
+                            <h2 id="div-html-name">Syntax</h2>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a id="btn-syn-table" class="link-menu">Table</a></li>
+                                <li class="breadcrumb-item"><a id="btn-syn-index" class="link-menu">Syntax</a></li>
+                                <li class="breadcrumb-item"><a id="btn-syn-histo" class="link-menu">History</a></li>
+                            </ul>
+                        </div>
+                        <div style="padding: 7px;max-width: 100%;" id="div-html">
+                            <div id="sql-adv2"><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4902214716381705" data-ad-slot="5258365579"></ins></div>
+                            <div id="div-html-name-z" style="display: none" description="SQL Online: SELECT INSERT DELETE UPDATE DROP CREATE ..." keywords="sql example,sql online, sql syntax, sqlite syntax, syntax, sqlite">Syntax</div>
+                            <div class="ndex row-2">
+                                <p><a onclick="foncindex(event, this)" href="/syntax/all_functions">all functions</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/comment">comment</a></p>
+                            </div>
+                            <div class="ndex row-2">
+                                <p><a onclick="foncindex(event, this)" href="/syntax/alter_table">ALTER TABLE</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/analyze">ANALYZE</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/attach_database">ATTACH DATABASE</a></p>
+                            </div>
+                            <div class="ndex row-2">
+                                <p><a onclick="foncindex(event, this)" href="/syntax/create_index">CREATE INDEX</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/create_table">CREATE TABLE</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/create_trigger">CREATE TRIGGER</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/create_view">CREATE VIEW</a></p>
+                            </div>
+                            <div class="ndex row-2">
+                                <p><a onclick="foncindex(event, this)" href="/syntax/drop_index">DROP INDEX</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/drop_table">DROP TABLE</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/drop_trigger">DROP TRIGGER</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/drop_view">DROP VIEW</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/delete">DELETE</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/detach_database">DETACH DATABASE</a></p>
+                            </div>
+                            <div class="ndex row-2">
+                                <p><a onclick="foncindex(event, this)" href="/syntax/insert">INSERT</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/select">SELECT</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/update">UPDATE</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/transaction">TRANSACTION</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/vacuum">VACUUM</a></p>
+                                <p><a onclick="foncindex(event, this)" href="/syntax/with">WITH</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="div-col-chart" class="tab-pane" style="display: none;">
+                        <button id="btn-chart-hide" aria-label="open/hide hint chart" type="button" class="btn"><i class="fa fa-ellipsis-v"></i></button>
+                        <div id="div-col-chart-hint">
+                            <h4>Chart for Data Science</h4>
+                            <div class="content CodeMirror cm-s-eclipse ow-x-a"> <pre class=" CodeMirror-line " role="presentation"><span class="cm-comment">-- Change first word "SELECT" to "LINE-SELECT"</span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-keyword">SELECT</span> <span class="cm-number"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span> <span class="cm-keyword">LINE-SELECT</span></pre> <pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-comment">-- labels - first column</span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-comment">-- values - all columns 2..N</span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-comment">-- color column key - "_c": name_cFF00FF (HEX6)</span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-comment">-- Example <i class="fa fa-line-chart" aria-hidden="true"></i>: </span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-keyword">LINE-SELECT</span> name <span class="cm-keyword">as</span> label<span class="cm-punctuation">,</span> cos(id) <span class="cm-keyword">as</span> cos_c1ab394<span class="cm-punctuation">,</span> sin(id) <span class="cm-keyword">as</span> sin_cFF0000 <span class="cm-keyword">FROM</span> demo<span class="cm-punctuation">;</span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-comment">-- Example <i class="fa fa-area-chart" aria-hidden="true"></i>: </span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-keyword">AREA-SELECT</span> id <span class="cm-keyword">as</span> x<span class="cm-punctuation">,</span> id <span class="cm-keyword">as</span> y <span class="cm-keyword">FROM</span> demo<span class="cm-punctuation">;</span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-comment">-- Example <i class="fa fa-bar-chart" aria-hidden="true"></i>: </span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-keyword">BAR-SELECT</span> name <span class="cm-keyword">as</span> label<span class="cm-punctuation">,</span> id <span class="cm-keyword">as</span> y <span class="cm-keyword">FROM</span> demo<span class="cm-punctuation">;</span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-comment">-- Example <i class="fa fa-pie-chart" aria-hidden="true"></i>: </span></pre> <pre class=" CodeMirror-line " role="presentation"><span class="cm-keyword">PIE-SELECT</span> name <span class="cm-keyword">as</span> label<span class="cm-punctuation">,</span> id <span class="cm-keyword">as</span> y <span class="cm-keyword">FROM</span> demo<span class="cm-punctuation">;</span></pre> </div>
+                        </div>
+                        <div id="div-col-chart-main">
+                            <canvas id="canvas" style="display: block; width: 100%; height: 100%;" class="chart-render"></canvas>
+                        </div>
+                    </div>
+                    <div id="edit-zce-btn" class="group group-btn">
+                        <button id="zce-add" aria-label="open modal form for add row" type="button" class="btn bg" style="margin-right: 3px; border-right-width: 1px; display: none;"><i class="fa fa-plus"></i></button>
+                        <button id="zce-table" style="display: none;" aria-label="open table" type="button" class="btn bg show"><i class="fa fa-table"></i></button>
+                        <button id="zce-chart" style="display: none;" aria-label="open charts" type="button" class="btn bg "><i class="fa fa-bar-chart"></i></button>
+                        <button id="zce-book" aria-label="open syntax book" type="button" class="btn bg "><i class="fa fa-book"></i></button>
+                    </div>
+                </div>
+                <div class="clearfix" style="background-color: #E9ECEF; background-color: #ffff89; border-top: 1px solid #cdc6c6;  color: #353d43; padding: 8px 12px; font-size: 13px;">
+                    <span id="stat_message" class="float-left"></span>
+                    <div class="float-right"> <span id="stat_time" style="margin-right: 10px;"></span> <span id="stat_rows" style="margin-right: 10px;"> </span> </div>
+                </div>
+            </div>
+            <div id="main-col-team" style="width: 340px; display: block;">
+                <div id="main-team-slider" style="display: block;"></div>
+                <div id="main-col-team-div">
+                    <div id="div-html-header" class="header" style="padding-left: 30px">
+                        <h2 id="div-html-name">Syntax</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"> <a id="btn-syn-table" class="link-menu">Table</a> </li>
+                            <li class="breadcrumb-item"> <a id="btn-syn-index" class="link-menu">Syntax</a> </li>
+                            <li class="breadcrumb-item"> <a id="btn-syn-histo" class="link-menu">History</a> </li>
+                        </ul>
+                    </div>
+                    <div style="padding: 7px;max-width: 100%;" id="div-html">
+                        <div id="sql-adv2">
+                            <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4902214716381705" data-ad-slot="5258365579">
+                            </ins>
+                        </div>
+                        <div id="div-html-name-z" style="display: none" description="SQL Online: SELECT INSERT DELETE UPDATE DROP CREATE ..." keywords="sql example,sql online, sql syntax, sqlite syntax, syntax, sqlite"> Syntax </div>
+                        <div class="ndex row-2">
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/all_functions">all functions</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/comment">comment</a> </p>
+                        </div>
+                        <div class="ndex row-2">
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/alter_table">ALTER TABLE</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/analyze">ANALYZE</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/attach_database">ATTACH DATABASE</a> </p>
+                        </div>
+                        <div class="ndex row-2">
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/create_index">CREATE INDEX</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/create_table">CREATE TABLE</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/create_trigger">CREATE TRIGGER</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/create_view">CREATE VIEW</a> </p>
+                        </div>
+                        <div class="ndex row-2">
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/drop_index">DROP INDEX</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/drop_table">DROP TABLE</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/drop_trigger">DROP TRIGGER</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/drop_view">DROP VIEW</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/delete">DELETE</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/detach_database">DETACH DATABASE</a> </p>
+                        </div>
+                        <div class="ndex row-2">
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/insert">INSERT</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/select">SELECT</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/update">UPDATE</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/transaction">TRANSACTION</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/vacuum">VACUUM</a> </p>
+                            <p> <a onclick="foncindex(event, this)" href="/syntax/with">WITH</a> </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="main-bar-right" style="transition: all 0.3s ease 0s; overflow-y: scroll;" class="sb-n">
+                <ul id="bar-right-tab" class="tab-list">
+                    <li>
+                        <a class="active" data-link="#tab-left-settings">
+                            <i class="fa fa-tasks" aria-hidden="true">
+                            </i>
+                        </a>
+                    </li>
+                    <li> <a class="" data-link="#tab-left-history">History</a> </li>
+                    <li> <a class="" data-link="#tab-left-about">About</a> </li>
+                </ul>
+                <div>
+                    <div id="tab-left-history" class="tab-pane">
+                        <div class="sidebar-title">
+                            <h3> <i class="fa fa-list"></i> History</h3> <small> </small>
+                        </div>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD: Sort left menu
+                                <br> ADD: Search in left menu (Table, Column, Type, Index, Trigger, Procedure, Function, ..)
+                                <br> Example:
+                                <br> NameSearch
+                                <br> #TypeSearch
+                                <br> NameSearch#TypeSearch
+                                <div class="small">1.2021</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD: Docker - PostgreSQL
+                                <br> ADD: Docker - MySQL
+                                <br> ADD: Docker - MariaDB
+                                <div class="small">12.2020</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                UPD: SQL.js
+                                <br> ADD: JSON1 (SQL.js)
+                                <br> ADD: FTS5 (SQL.js)
+                                <div class="small">11.2020</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD Import: MariaDB, PostgrSQL, MS SQL
+                                <br> UPD Intelligent-Import
+                                <br> UPD Cloud User Script
+                                <div class="small">10.2020</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD Hover cell
+                                <br> ADD SQLite 3.33.0
+                                <br> UPD Stealth size bar in block
+                                <br> UPD Left-Menu
+                                <br> UPD Export
+                                <br> UPD Import
+                                <br> FIX Multi-PK
+                                <div class="small">8.2020</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                FIX Visual-UPDATE
+                                <br> ADD SQLite 3.32.1
+                                <br> ADD Save columns size
+                                <div class="small">5.2020</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD Multi-result
+                                <br> ADD Short CODE:
+                                <br> ct
+                                <br> sf tableName
+                                <br> ii tableName
+                                <br> us tableName
+                                <br> uw tableName
+                                <br> df tableName
+                                <br> dw tableName
+                                <div class="small">4.2020</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD Visual Sort column
+                                <br> ADD Team-Work MariaDB
+                                <br> ADD Team-Work MS SQL Server
+                                <br> UPD MultiSyntax SQL
+                                <div class="small">3.2020</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                NEW 1001+ UX
+                                <br> ADD New Chart
+                                <br> ADD Team-Work PostgreSQL
+                                <br> Remove jQuery and all lib use
+                                <div class="small">2.2020</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD MS SQL Server - test
+                                <br> ADD Oracle - test
+                                <br> ADD NEW Scroll
+                                <br> ADD Resize box
+                                <br> ADD PostgreSQL - Export
+                                <br> ADD MariaDB - Export
+                                <br> ADD PostgreSQL - test
+                                <br> ADD Visual-Edit MariaDB
+                                <br> ADD Visual-Edit PostgreSQL
+                                <div class="small">10.2019</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD MariaDB - test
+                                <br> UPD Visual DROP COLUMN + Syntax SQL
+                                <br> UPD WASM default
+                                <br> UPD Left menu
+                                <br> ADD Visual DROP COLUMN + Syntax SQL
+                                <br> UPD MultiVersion to WASM
+                                <br> UPD Visual ADD COLUMN
+                                <div class="small">07.2019</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD Visual ADD COLUMN + Syntax SQL
+                                <br> FIX Visual RENAME
+                                <br> UPD Import SQL
+                                <br> UPD Export CSV
+                                <br> FIX db-save name
+                                <br> ADD date release
+                                <br> ADD Visual RENAME + Syntax SQL
+                                <br> UPD Left menu
+                                <br> UPD Import CSV
+                                <br> FIX Export Schema
+                                <br> UPD Code editor
+                                <br> UPD AI.Help
+                                <div class="small">6.2019</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                UPD Left menu sql schema
+                                <br> FIX Visual
+                                <br> TEST SQLite.wasm
+                                <br> ADD Visual UPDATE + Syntax SQL
+                                <br> ADD Visual DELETE + Syntax SQL
+                                <br> UPD Visual INSERT + Syntax SQL
+                                <div class="small">5.2019</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                UPD Default 3.28.0
+                                <br> FIX display text
+                                <br> ADD Chart.test
+                                <div class="small">4.2019</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                FIX Edge
+                                <br> UPD Default 3.27.2
+                                <br> UPD 1001 micro-modifications
+                                <br> ADD Geo-Balancing
+                                <br> UPD Export JSON
+                                <br> ADD Menu table - Export JSON
+                                <div class="small">2.2019</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                UPD module library
+                                <br> ADD Dark style
+                                <br> ADD Test Premium
+                                <div class="small">1.2019</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD Scroll columns
+                                <br> ADD Width column
+                                <br> ADD auto-Width columns
+                                <br> ADD Visual adding of ROW (INT, TEXT, BLOB)
+                                <br> UPD Default 3.26.0
+                                <div class="small">12.2018</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD MultiVersion + 3.25.3
+                                <br> FIX Import CSV
+                                <br> UPD Default 3.25.2
+                                <div class="small">11.2018</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD MultiVersion + 3.25.2
+                                <br> ADD MultiVersion + 3.25.0, 3.25.1
+                                <div class="small">9.2018</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                FIX "table already exists"
+                                <br> ADD MultiVersion
+                                <br> many changes
+                                <div class="small">8.2018</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                UPD Sqlite 3.24.0
+                                <div class="small">6.2018</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                UPD Sqlite 3.23.1
+                                <br> ADD table setting col
+                                <br> ADD "Open row" ai.link
+                                <br> ADD "Open row" ai.color
+                                <br> FIX back
+                                <div class="small">5.2018</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                ADD "Open row" ai.image
+                                <div class="small">4.2018</div>
+                            </li>
+                        </ul>
+                        <ul class="sidebar-list">
+                            <li>
+                                First version
+                                <div class="small">
+                                    <a rel="noopener" href="https://old.sqliteonline.com" target="_blank">
+                                        2014
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="tab-left-settings" class="tab-pane active">
+                        <div class="sidebar-title">
+                            <h3> <i class="fa fa-cogs"></i> Settings</h3>
+                        </div>
+                        <ul class="sidebar-list">
+                            <li>
+                                <label for="sqlite-select" class="h4">SqLite</label> Use technology supported by your browser, select version (wasm or asm.js):
+                                <p>
+                                    <select id="sqlite-select">
+                                        <option value="0">default</option>
+                                        <optgroup label="Wasm">
+                                            <option value="w">3.34.1</option>
+                                            <option value="w">3.34.0</option>
+                                            <option value="w">3.33.0.j</option>
+                                            <option value="w">3.33.0</option>
+                                            <option value="w">3.32.3</option>
+                                            <option value="w">3.32.2</option>
+                                            <option value="w">3.32.1</option>
+                                            <option value="w">3.31.1</option>
+                                            <option value="w">3.31.0</option>
+                                            <option value="w">3.30.1</option>
+                                            <option value="w">3.30.0</option>
+                                            <option value="w">3.29.0</option>
+                                            <option value="w">3.28.0</option>
+                                        </optgroup>
+                                        <optgroup label="asm.js">
+                                            <option value="j">3.34.1</option>
+                                            <option value="j">3.34.0</option>
+                                            <option value="j">3.33.0.j</option>
+                                            <option value="j">3.31.1</option>
+                                            <option value="j">3.31.0</option>
+                                            <option value="j">3.30.1</option>
+                                            <option value="j">3.30.0</option>
+                                            <option value="j">3.29.0</option>
+                                            <option value="j">3.28.0</option>
+                                        </optgroup>
+                                    </select>
+                                </p>
+                            </li>
+                            <li>
+                                <label for="skins-select" class="h4">Skins</label>
+                                <p>
+                                    <select id="skins-select">
+                                        <option value="0">Default</option>
+                                        <option value="1">Dark</option>
+                                        <option value="2">WGreen</option>
+                                        <option value="3">WCream</option>
+                                        <option value="4">LGray</option>
+                                    </select>
+                                </p>
+                                <label for="hover-cell" class="h4">Hover cell</label>
+                                <p>
+                                    <select id="hover-cell">
+                                        <option value="0">None</option>
+                                        <option value="1">Animation</option>
+                                        <option value="2">Rectangle</option>
+                                    </select>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="tab-left-about" class="tab-pane">
+                        <div class="sidebar-title">
+                            <h3> <i class="fa fa-flag"></i> SQL Online</h3> <small>
+                                21.5.28-2021 .Concept.toDream
+                                <br> <a href="https://sqliteonline.com/LICENSE" target="_blank">©</a> 2021
+                                <i>
+                                    Kirill
+                                    N.
+                                </i>
+                                <a rel="noopener" href="https://www.linkedin.com/in/sqliteonlinecom/" target="_blank">
+                                    <i class="fa fa-linkedin" aria-hidden="true">
+                                    </i>
+                                </a>
+                                <a rel="noopener" href="https://twitter.com/SqliteOnlineCom" target="_blank">
+                                    <i class="fa fa-twitter" aria-hidden="true">
+                                    </i>
+                                </a>
+                                <br> <a href="mailto:z@@sqliteonline.com">z@@sqliteonline.com</a>
+                                <br>
+                                <a rel="noopener" href="https://status.sqliteonline.com/"
+                                   target="_blank">
+                                    upTime
+                                </a>
+                            </small> <small>
+                                <br>Server:
+                                <a rel="noopener" href="https://www.ovh.com" target="_blank">OVH</a>
+                                <a rel="noopener" href="https://m.do.co/c/0499bf1df874" target="_blank">DO</a>
+                                <a rel="noopener" href="https://www.vultr.com/?ref=8117373" target="_blank">Vultr</a>
+                                <a rel="noopener" href="https://hetzner.com" target="_blank">Hetzner</a>
+                                <br>DNS:
+                                <a rel="noopener" href="https://www.cloudns.net/aff/id/266468/"
+                                   target="_blank">
+                                    ClouDNS
+                                </a>
+                                <br><i class="fa fa-github"></i>
+                                <a rel="noopener"
+                                   href="https://github.com/zirill/sqliteonline.com.dif/"
+                                   target="_blank">
+                                    Modification
+                                </a>
+                            </small>
+                        </div>
+                        <ul class="sidebar-list">
+                            <li style="padding: 5px 20px;">
+                                <h4>Powered by</h4>
+                            </li>
+                            <li>
+                                <div class="ver">3.34.1</div>
+                                <h4>SqLite</h4> - is a relational database management system contained in a C programming library.
+                                <div class="small">
+                                    <a rel="noopener" href="https://sqlite.org" target="_blank">
+                                        http://sqlite.org/
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">1.4.0</div>
+                                <h4>Sql.js</h4> SQLite compiled to JavaScript through Emscripten
+                                <div class="small">
+                                    <a rel="noopener" href="https://github.com/sql-js/sql.js" target="_blank">
+                                        https://github.com/sql-js/sql.js
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">10</div>
+                                <h4>MariaDB</h4>
+                                <div class="small">
+                                    <a rel="noopener" href="https://mariadb.org" target="_blank">
+                                        https://mariadb.org
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">12</div>
+                                <h4>PostgreSQL</h4>
+                                <div class="small">
+                                    <a rel="noopener" href="https://www.postgresql.org" target="_blank">
+                                        https://www.postgresql.org
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">2019</div>
+                                <h4>MS SQL Server Express</h4>
+                                <div class="small">
+                                    <a rel="noopener" href="https://www.microsoft.com/en-us/sql-server/sql-server-editions-express" target="_blank">
+                                        https://www.microsoft.com/en-us/sql-server/sql-server-editions-express
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">18c</div>
+                                <h4>Oracle XE</h4>
+                                <div class="small">
+                                    <a rel="noopener" href="https://www.oracle.com/database/technologies/appdev/xe.html" target="_blank">
+                                        https://www.oracle.com/database/technologies/appdev/xe.html
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">4.7.0</div>
+                                <h4>Font-Awesome</h4> The iconic font and CSS toolkit
+                                <div class="small">
+                                    <a rel="noopener" href="https://github.com/FortAwesome/Font-Awesome" target="_blank">
+                                        https://github.com/FortAwesome/Font-Awesome
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">1.3.3</div>
+                                <h4>FileSaver.js</h4> An HTML5 saveAs() FileSaver implementation
+                                <div class="small">
+                                    <a rel="noopener" href="https://github.com/eligrey/FileSaver.js" target="_blank">
+                                        https://github.com/eligrey/FileSaver.js
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">5.59.2</div>
+                                <h4>CodeMirror</h4> In-browser code editor
+                                <div class="small">
+                                    <a rel="noopener" href="https://github.com/codemirror/CodeMirror/" target="_blank">
+                                        https://github.com/codemirror/CodeMirror/
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">1.0.3</div>
+                                <h4>MetisMenu</h4>
+                                <div class="small">
+                                    <a rel="noopener" href="https://github.com/onokumus/metismenujs" target="_blank">
+                                        https://github.com/onokumus/metismenujs
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver"></div>
+                                <h4>Toastify</h4>
+                                <div class="small">
+                                    <a rel="noopener" href="https://github.com/apvarun/toastify-js" target="_blank">
+                                        https://github.com/apvarun/toastify-js
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver"></div>
+                                <h4>Chart.js</h4>
+                                <div class="small">
+                                    <a rel="noopener" href="https://github.com/chartjs/Chart.js" target="_blank">
+                                        https://github.com/chartjs/Chart.js
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">2.9</div>
+                                <h4>INSPINIA</h4> HTML Template
+                                <div class="small">
+                                    <a rel="noopener" href="https://wrapbootstrap.com/theme/inspinia-responsive-admin-theme-WB0R5L90S" target="_blank">
+                                        https://wrapbootstrap.com/
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="ver">2019.+</div>
+                                <h4>jetBrains</h4> The company offers an extended family of integrated development environments IDE
+                                <div class="small">
+                                    <a rel="noopener" href="https://www.jetbrains.com/" target="_blank">
+                                        https://www.jetbrains.com/
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="dlg act nosel" id="da-modal" style="z-index: 40; display: none; top: 42.5px; left: 51.6094px;">
+        <ul>
+            <li><a class="" tabindex="-1"><i class="fa fa-folder-open" style="margin-right:5px"></i>Open DB</a></li>
+            <li><a class="" tabindex="-1"><i class="fa fa-save" style="margin-right:5px"></i>Save DB</a></li>
+            <li class="divider"></li>
+            <li><a class="" tabindex="-1"><i class="fa fa-folder-open" style="margin-right:5px"></i>Open SQL</a></li>
+            <li><a class="" tabindex="-1"><i class="fa fa-save" style="margin-right:5px"></i>Save SQL</a></li>
+            <li class="divider"></li>
+            <li><a class="" tabindex="-1"><i class="fa fa-save" style="margin-right:5px"></i>Save history - MariaDB</a></li>
+            <li><a class="" tabindex="-1"><i class="fa fa-trash-o" style="margin-right:5px"></i>Clear history - MariaDB</a></li>
+            <li><a class="" tabindex="-1"><i class="fa fa-trash" style="margin-right:5px"></i>Clear all-history</a></li>
+        </ul>
+    </div>
+    <div class="d-lock bga7" id="dl-modal2" style="overflow-y: auto; z-index: 40;">
+        <div class="dlg modal bw h-auto" id="dh-modal2" style="padding: 2px 0px 0px;">
+            <div class="header" style="display: none;">
+                <i class="ibtn bl fa fa-chevron-left" style="display: none;"></i><i class="ibtn br fa fa-chevron-right" style="display: none;"></i><i class="log fa fa-id-card-o"></i>
+                <h4></h4><small></small>
+            </div>
+            <div class="body" style="display: block; padding: 0px;">
+                <div class="row-2">
+                    <div class="bgcl p24" style="padding-top: 40px">
+                        <form id="connectForm" method="post">
+                            <p class="input-log">
+                                <i class="fa fa-database"></i>
+                                <input id="ConnServerName" class="" name="serverName" type="text" placeholder="server name">
+                            </p>
+                            <p class="input-log">
+                                <i class="fa fa-user"></i>
+                                <input id="ConnUsername" class="" name="username" type="text" placeholder="login">
+                            </p>
+                            <p class="input-log">
+                                <i class="fa fa-lock"></i>
+                                <input id="ConnPassword" class="" name="password" type="password" placeholder="password">
+                            </p>
+                            <div class="row-2" style="padding: 0 0 8px;grid-gap: 10px;">
+                                <button class="btn bg" type="submit">Connect</button>
+                            </div><small>Link: create share link (Url + DataBase Name + Login)</small>
+                        </form>
+                    </div>
+                    <div class="p24 my-auto">
+                        <h2 class="font-bold"> Connect to "Remote DB"</h2>
+                        <p>Online SQL IDE</p>
+                    </div>
+                </div>
+            </div><pre class="hint cm-s-eclipse ow-x-a" style="display: none;"></pre>
+        </div>
+    </div>
+    <div class="menu-tooltip" style="left: 219px; top: 307px; display: none;">demo</div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.3.5/split.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://unpkg.com/jquery-resizable-columns@0.2.3/dist/jquery.resizableColumns.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/sticky-header/bootstrap-table-sticky-header.min.js"></script> 
+    
+        <script src="~/js/main.js"></script> 
+    @await RenderSectionAsync("Scripts", required: false)
+    </body>
+
+</html>
