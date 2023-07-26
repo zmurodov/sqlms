@@ -259,10 +259,13 @@ $(document).ready(function () {
         $("#lock-wait").css('display', 'block')
 
         var servername = $("#ConnServerName").val()
+        var port = $("#ConnPort").val()
         var username = $("#ConnUsername").val()
         var password = $("#ConnPassword").val()
+        
         var body = {
             serverName: servername,
+            port: port == "" ? null : port,
             username: username,
             password: password
         }

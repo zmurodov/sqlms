@@ -28,7 +28,8 @@ namespace SQLMS.Controllers
         [HttpPost("connect")]
         public async Task<ActionResult<ConnResponseDto>> Connect([FromBody] ConnRequestDto request)
         {
-            var connString = $"Server={request.ServerName};User Id={request.Username};Password={request.Password};MultipleActiveResultSets=true;Connection Timeout=3;";
+            var connString = GetConnectionString(request.ServerName, request.Port, request.Username, request.Password);
+
             SqlConnection conn = new SqlConnection(connString);
             ConnResponseDto result = null;
 
@@ -41,6 +42,7 @@ namespace SQLMS.Controllers
                     new Claim("Username", request.Username),
                     new Claim("Password", request.Password),
                     new Claim("ServerName", request.ServerName),
+                    new Claim("Port", request.Port.ToString()),
                 };
 
                 var identity = new ClaimsIdentity(connClaims, "Connection Identity");
@@ -75,12 +77,10 @@ namespace SQLMS.Controllers
         [HttpPost("run-query")]
         public IActionResult Run([FromBody]QueryRunRequestDto request)
         {
-            var serverName = HttpContext.User.FindFirst(x => x.Type == "ServerName")?.Value;
-            var username = HttpContext.User.FindFirst(x => x.Type == "Username")?.Value;
-            var password = HttpContext.User.FindFirst(x => x.Type == "Password")?.Value;
+            var (serverName, username, password, port) = GetConnectionInfo();
 
-            var connString = $"Server={serverName};User Id={username};Password={password};MultipleActiveResultSets=true;Connection Timeout=3;";
-
+            var connString = GetConnectionString(serverName, port, username, password);
+            
             var result = new List<Dictionary<string, string>>();
             var names = new List<string>();
             var query = "";
@@ -153,12 +153,9 @@ namespace SQLMS.Controllers
         [HttpGet("get-databases")]
         public ActionResult<DatabasesResponse> GetDatabases()
         {
-            var serverName = HttpContext.User.FindFirst(x => x.Type == "ServerName")?.Value;
-            var username = HttpContext.User.FindFirst(x => x.Type == "Username")?.Value;
-            var password = HttpContext.User.FindFirst(x => x.Type == "Password")?.Value;
+            var (serverName, username, password, port) = GetConnectionInfo();
 
-            var connString = $"Server={serverName};User Id={username};Password={password};MultipleActiveResultSets=true;Connection Timeout=3;";
-
+            var connString = GetConnectionString(serverName, port, username, password);
 
             SqlConnection conn = new SqlConnection(connString);
 
@@ -273,11 +270,9 @@ namespace SQLMS.Controllers
         [HttpPost("test")]
         public IActionResult Test()
         {
-            var serverName = HttpContext.User.FindFirst(x => x.Type == "ServerName")?.Value;
-            var username = HttpContext.User.FindFirst(x => x.Type == "Username")?.Value;
-            var password = HttpContext.User.FindFirst(x => x.Type == "Password")?.Value;
+            var (serverName, username, password, port) = GetConnectionInfo();
 
-            var connString = $"Server={serverName};User Id={username};Password={password};MultipleActiveResultSets=true;Connection Timeout=3;";
+            var connString = GetConnectionString(serverName, port, username, password);
             SqlConnection conn = new SqlConnection(connString);
 
             try
@@ -296,5 +291,23 @@ namespace SQLMS.Controllers
             return Ok();
         }
 
+        private static string GetConnectionString(string serverName, int? port, string userName, string password)
+        {
+            var serverWithPort = serverName + (port.HasValue && port.Value != 0 ? $",{port.Value}" : "");
+            var connString =
+                $"Server={serverWithPort};User Id={userName};Password={password};MultipleActiveResultSets=true;Connection Timeout=30;";
+
+            return connString;
+        }
+        
+        private (string serverName, string userName, string password, int port) GetConnectionInfo()
+        {
+            var serverName = HttpContext.User.FindFirst(x => x.Type == "ServerName")?.Value;
+            var username = HttpContext.User.FindFirst(x => x.Type == "Username")?.Value;
+            var password = HttpContext.User.FindFirst(x => x.Type == "Password")?.Value;
+            int.TryParse(HttpContext.User.FindFirst(x => x.Type == "Port")?.Value, out var port);
+
+            return (serverName, username, password, port);
+        }
     }
 }
